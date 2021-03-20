@@ -9,6 +9,10 @@ class Student:
         self.courses_in_progress = []
         self.grades = {}
 
+    def __lt__(self, other):
+
+        return self.mean_g < other.mean_g
+
     def rate_lecturer(self, lecturer, course, grade):
         if isinstance(lecturer, Lecturer) and course in self.courses_in_progress and course in lecturer.courses_attached:
             if course in lecturer.grades:
@@ -43,6 +47,10 @@ class Lecturer(Mentor):
                f'Средняя оценка за лекции: {self.grades}\n' \
 
 
+    def __lt__(self, other):
+        return self.mean_g < other.mean_g
+
+
 class Reviewer(Mentor):
      def rate_hw(self, student, course, grade):
          if isinstance(student, Student) and course in self.courses_attached and course in student.courses_in_progress:
@@ -58,7 +66,8 @@ class Reviewer(Mentor):
 
 def mean_grades(arr):
     for a in arr.values():
-        return sum(a)/len(a)
+        mean_g = sum(a)/len(a)
+        return mean_g
 
 
 
@@ -109,10 +118,11 @@ print(bad_student.grades)
 print(our_lecturer1.grades)
 print(our_lecturer2.grades)
 
-print(mean_grades(our_lecturer1.grades) < mean_grades(our_lecturer2.grades))
 
 
+print(mean_grades(best_student.grades) > mean_grades(bad_student.grades))
 
+print(mean_grades(our_lecturer1.grades) > mean_grades(our_lecturer2.grades))
 
 
 
